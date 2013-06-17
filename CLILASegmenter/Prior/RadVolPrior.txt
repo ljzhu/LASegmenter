@@ -1,0 +1,11 @@
+laVMean 106.376
+laVSTD 45.0909
+laRMean 11.58
+laRSTD 3.13
+alpha 0.03
+beta -1.0
+
+# unit in pixel
+laRMean 18.5333
+laRSTD 5
+

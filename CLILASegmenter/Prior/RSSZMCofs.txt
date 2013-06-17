@@ -1,0 +1,9 @@
+wIntensity 0.05 0.1
+wCurvature 0.3 0.3
+wRSS 0.3
+exVolume 60 300
+iter 100 300
+
+
+
+

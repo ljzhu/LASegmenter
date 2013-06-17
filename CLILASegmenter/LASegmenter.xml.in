@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+  <category>
+    Testing
+  </category>
+  <title>
+    Left Atrium Segmentation
+  </title>
+  <description>
+    Segmentation of Left Atrium
+  </description>
+  <version>1.0</version>
+  <documentation-url>
+   http://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Modules/LASegmenter
+  </documentation-url>
+  <license></license>
+  <contributor>
+    LiangJia Zhu (UAB), Yi Gao (BWH), Josh Cates (Utah), Alan Morris (Utah), Danny Perry (Utah), Greg Gardner (Utah), Rob MacLeod (Utah), Allen Tannenbaum (UAB)
+  </contributor>
+  <acknowledgements>
+    This work is part of the National Alliance for Medical Image Computing (NAMIC), funded by the National Institutes of Health
+  </acknowledgements>
+
+ <parameters>
+    <label>Auxiliary Parameters</label>
+    <double>
+          <name>intensityHomogeneity</name>
+          <longflag>intensityHomogeneity</longflag>
+          <description>What is the homogeneity of intensity within the object? Given constant intensity at 1.0 score and extreme fluctuating intensity at 0.</description>
+          <label>Intensity Homogeneity[0, 1.0]</label>
+          <default>0.1</default>
+          <constraints>
+            <minimum>0.0</minimum>
+            <maximum>1.0</maximum>
+            <step>0.1</step>
+          </constraints>
+        </double>
+    <double>
+          <name>curvatureWeight</name>
+          <longflag>curvatureWeight</longflag>
+          <flag>c</flag>
+          <description><![CDATA[Given sphere 1.0 score and extreme rough bounday/surface 0 score, what is the expected smoothness of the object?]]></description>
+          <label>Boundary Smoothness[0,1.0]</label>
+          <default>0.4</default>
+          <constraints>
+            <minimum>0.0</minimum>
+            <maximum>1.0</maximum>
+            <step>0.1</step>
+          </constraints>
+        </double>
+
+ </parameters>
+
+  <parameters>
+    <label>IO</label>
+    <description>Input/output parameters</description>
+    <image>
+        <name>sourceImageName</name>
+        <label>Original Image</label>
+        <channel>input</channel>
+        <index>0</index>
+        <description>Source image to be segmented</description>
+    </image>
+    <image type = "label">
+        <name>seedImageName</name>
+        <label>Seed Label Image</label>
+        <channel>input</channel>
+        <index>1</index>
+        <description>Seed label for the LA</description>
+    </image>
+    <image type = "label">
+        <name>laImageName</name>
+        <label>Segmentation Result</label>
+        <channel>output</channel>
+        <index>2</index>
+        <description>Label for the LA</description>
+    </image>
+  </parameters>
+
+</executable>
