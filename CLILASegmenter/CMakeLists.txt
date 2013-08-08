@@ -92,11 +92,9 @@ include_directories(${headerAndLibDir})
 
 add_subdirectory(ShapeMoments)
 
-#SET(laLibs  ${ITK_LIBRARIES} ${VTK_LIBRARIES} ShapeMoments)
 SET(laLibs  ${ITK_LIBRARIES} ShapeMoments)
 SEMMacroBuildCLI(
   NAME ${EXTENSION_NAME}
-  #LOGO_HEADER ${Slicer_SOURCE_DIR}/Resources/NAMICLogo.h
   TARGET_LIBRARIES ${cli_module_target_libraries} ${laLibs}
   INCLUDE_DIRECTORIES ${cli_module_include_directories}
   ADDITIONAL_SRCS ${cli_module_SRCS}
@@ -104,9 +102,9 @@ SEMMacroBuildCLI(
   )
 
 # Build test
-SET(laSeg LASegmenterConsole)
-ADD_EXECUTABLE(${laSeg} ${laSeg}.cxx)
-TARGET_LINK_LIBRARIES(${laSeg} ${laLibs})
+#SET(laSeg LASegmenterConsole)
+#ADD_EXECUTABLE(${laSeg} ${laSeg}.cxx)
+#TARGET_LINK_LIBRARIES(${laSeg} ${laLibs})
 
 
 

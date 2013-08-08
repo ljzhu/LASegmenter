@@ -88,7 +88,7 @@ void RSSWithShapeConstraint(const char* fnSrc, const char* fnSeed, const char* f
     laSeedRad = EstimateSeedRadius<ImMaskType>(imLab);
 
     // Isotropic resampling required by Zernike Moments comuptation
-    const double spacingX = std::max(imSrc->GetSpacing()[0]*2, 1.0);
+    const double spacingX = std::max(imSrc->GetSpacing()[0]*2, 1.5);
     double spacing[] = {spacingX, spacingX, spacingX};
     imSrcIso = LASeg::ResampleImage<ImSrcType, ImSrcType>(imSrcSmooth, spacing, 1);
     imLabIso = LASeg::ResampleImage<ImMaskType, ImMaskType>(imLab, spacing, 0);

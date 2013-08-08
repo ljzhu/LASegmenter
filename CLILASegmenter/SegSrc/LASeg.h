@@ -3,8 +3,6 @@
 
 #include "utilities.hxx"
 #include "ZernikeDescriptor.h"
-#include "cmakeConfig.h"
-
 
 namespace LASeg {
 
