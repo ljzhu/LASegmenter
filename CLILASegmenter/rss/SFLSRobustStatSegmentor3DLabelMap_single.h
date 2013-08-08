@@ -76,8 +76,6 @@ public:
   void setIntensityHomogeneity(double h);
   void setSeedRad(double seedRad) {m_laSeedRad = seedRad;}
 
-  void SetZMReference(const char* fn);
-  void SetRadVolPrior(const char* fn);
   void SetRSSWeight(double rssWeight) {m_rssWeight = rssWeight;}
   void SetRSSNumIter(unsigned long itRSS) {m_numIterRSS = itRSS;}
   void SetSaveInter(std::string fnInter) {m_fnInter = fnInter;}
@@ -149,7 +147,6 @@ private:
   void EvaluateRSSCof();
   void UpdateRSSZMShiftFactor();
   void EvaluateDevRSSCof();
-  std::string m_fnZMRef; 
   ComplexT1D m_ZMRef;
   int m_ZMOrder;
   ZernikeDescriptor<float, float> m_ZM;

@@ -163,12 +163,10 @@ private:
             xCOG_, yCOG_, zCOG_,    // center of gravity  
             scale_;                 // scaling factor mapping the function into the unit sphere
 
-    //T2D                 invariants_;        // 2D vector of invariants under SO(3)
-    T1D                 invariants_;        // 2D vector of invariants under SO(3)
+    T1D                 invariants_;
 
 
     ZernikeMomentsT     zm_;
-    //CumulativeMomentsT  cm_;
     ScaledGeometricalMomentsT gm_;  
 };
 

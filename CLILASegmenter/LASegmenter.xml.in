@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <executable>
   <category>
-    Testing
+     Segmentation
   </category>
   <title>
     Left Atrium Segmentation
@@ -11,7 +11,7 @@
   </description>
   <version>1.0</version>
   <documentation-url>
-   http://www.slicer.org/slicerWiki/index.php/Documentation/Nightly/Modules/LASegmenter
+   http://www.slicer.org/slicerWiki/index.php?title=Documentation/Nightly/Extensions/LASegmenter
   </documentation-url>
   <license></license>
   <contributor>

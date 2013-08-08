@@ -13,7 +13,7 @@ void RSSWithShapeConstraint(const char* fnSrc, const char* fnSeed, const char* f
 
 template<typename PixelType, typename ImMaskType>
 typename ImMaskType::Pointer
-SegWithRSSandZM(typename itk::Image<PixelType, 3>::Pointer imSrc, typename ImMaskType::Pointer imLab, const char* fnZM, double seedRad, double wIntensityIni, double wCurvature, \
+SegWithRSSandZM(typename itk::Image<PixelType, 3>::Pointer imSrc, typename ImMaskType::Pointer imLab, double seedRad, double wIntensityIni, double wCurvature, \
                 double wRSS, double exVolume, int nIterAll, int nIterRSS, std::string fnInter = "");
 
 template<typename ImSrcType>

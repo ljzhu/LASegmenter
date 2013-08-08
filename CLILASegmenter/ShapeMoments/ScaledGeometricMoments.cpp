@@ -262,23 +262,6 @@ void ScaledGeometricalMoments<VoxelT,MomentT>::ComputeNormalizedMomentsDerivativ
         for (int j=0; j<maxOrder_+1-i; ++j) {
             for (int k=0; k<maxOrder_+1-i-j; ++k) {
 
-
-                // dM/dK0
-//                dmoments_[i][j][k][0] = i*K1_*_scale/(K0_*K0_)*moments_[std::max(i - 1,0)][j][k]  \
-//                                      +  j*K2_*_scale/(K0_*K0_)*moments_[i][std::max(j - 1,0)][k]  \
-//                                      +  k*K3_*_scale/(K0_*K0_)*moments_[i][j][std::max(k - 1,0)]  \
-//                        + ( (K1_*eta100 + K2_*eta010 + K3_*eta001)*(_scale*_scale)/K03 \
-//                            -0.5*(eta200 + eta020 + eta002)*(_scale*_scale)/(K0_*K0_))*moments_[i][j][k];
-
-//                // dM/dK1
-//                dmoments_[i][j][k][1] = -(i*_scale/K0_ + K1_*eta100*R3/K03)*moments_[std::max(i - 1,0)][j][k];
-
-//                // dM/dK2
-//                dmoments_[i][j][k][2] = -(j*_scale/K0_ + K2_*eta010*R3/K03)*moments_[i][std::max(j - 1,0)][k];
-
-//                // dM/dK3
-//                dmoments_[i][j][k][3] = -(k*_scale/K0_ + K3_*eta001*R3/K03)*moments_[i][j][std::max(k - 1,0)];
-
                 dmoments_[i][j][k][0] = i*K0Cx*moments_[std::max(i - 1,0)][j][k]  \
                                       + j*K0Cy*moments_[i][std::max(j - 1,0)][k]  \
                                       + k*K0Cz*moments_[i][j][std::max(k - 1,0)]  \
@@ -293,8 +276,6 @@ void ScaledGeometricalMoments<VoxelT,MomentT>::ComputeNormalizedMomentsDerivativ
                 // dM/dK3
                 dmoments_[i][j][k][3] = -(k*K3C0 + K3C1)*moments_[i][j][std::max(k - 1,0)];
 
-//                std::cout << "dmoments[" << i << "," << j << "," << k << "] = " << dmoments_[i][j][k][0] << "," \
-//                          << dmoments_[i][j][k][1] << "," << dmoments_[i][j][k][2] << "," << dmoments_[i][j][k][3] << std::endl;
             }
         }
     }

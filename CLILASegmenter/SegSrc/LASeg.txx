@@ -17,19 +17,15 @@ namespace LASeg {
 ************************************************************/
 template<typename PixelType, typename ImMaskType>
 typename ImMaskType::Pointer
-SegWithRSSandZM(typename itk::Image<PixelType, 3>::Pointer imSrc, typename ImMaskType::Pointer imLab, const char* fnZM, double seedRad, \
+SegWithRSSandZM(typename itk::Image<PixelType, 3>::Pointer imSrc, typename ImMaskType::Pointer imLab, double seedRad, \
                 double wIntensityIni, double wCurvature, double wRSS, double exVolume, int nIterAll, int nIterRSS,std::string fnInter){
 
     typedef CSFLSRobustStatSegmentor3DLabelMap< PixelType > SFLSRobustStatSegmentor3DLabelMap_c;
-
-    std::string  fnRadVolPrior = std::string(Prior3D_DIR) + "RadVolPrior.txt";
 
     // Do segmentation
     SFLSRobustStatSegmentor3DLabelMap_c seg;
     seg.setImage(imSrc);
     seg.setInputLabelImage(imLab);
-    seg.SetZMReference(fnZM);
-    seg.SetRadVolPrior(fnRadVolPrior.c_str());
     seg.setSeedRad(seedRad);
     seg.SetSaveInter(fnInter);
 
@@ -73,14 +69,10 @@ void RSSWithShapeConstraint(const char* fnSrc, const char* fnSeed, const char* f
     const double exVolRSSZM = 300;
     const int iterRSS = 100;
     const int iter = 300;
-    std::string fnLAZMPrior;
-    fnLAZMPrior = std::string(Prior3D_DIR) + "LAZMPrior.txt";
 
     typedef float PixelType;
     typedef itk::Image< PixelType, 3 > ImSrcType;
     typedef itk::Image< char, 3 > ImMaskType;
-    std::vector<std::string> fn_vec;
-    std::stringstream ss;
     ImSrcType::Pointer imSrc, imSrcSmooth, imSrcIso;
     ImMaskType::Pointer imLab, imLabIso, imLA;
 
@@ -97,13 +89,12 @@ void RSSWithShapeConstraint(const char* fnSrc, const char* fnSeed, const char* f
 
     // Isotropic resampling required by Zernike Moments comuptation
     const double spacingX = std::max(imSrc->GetSpacing()[0]*2, 1.0);
-//    const double spacingX = 2.0;
     double spacing[] = {spacingX, spacingX, spacingX};
     imSrcIso = LASeg::ResampleImage<ImSrcType, ImSrcType>(imSrcSmooth, spacing, 1);
     imLabIso = LASeg::ResampleImage<ImMaskType, ImMaskType>(imLab, spacing, 0);
 
-    imLA = LASeg::SegWithRSSandZM<PixelType, ImMaskType>(imSrcIso, imLabIso, fnLAZMPrior.c_str(), laSeedRad, wIntensity, wCurvature, wRSS, exVolRSS, iterRSS, iterRSS);
-    imLA = LASeg::SegWithRSSandZM<PixelType, ImMaskType>(imSrcIso, imLA, fnLAZMPrior.c_str(), laSeedRad, wIntensity, wCurvature, wRSS, exVolRSSZM, iter, 0);
+    imLA = LASeg::SegWithRSSandZM<PixelType, ImMaskType>(imSrcIso, imLabIso, laSeedRad, wIntensity, wCurvature, wRSS, exVolRSS, iterRSS, iterRSS);
+    imLA = LASeg::SegWithRSSandZM<PixelType, ImMaskType>(imSrcIso, imLA,  laSeedRad, wIntensity, wCurvature, wRSS, exVolRSSZM, iter, 0);
 
     imLA = LASeg::ResampleImage<ImMaskType, ImMaskType>(imLA, spacingOri, 0);
 

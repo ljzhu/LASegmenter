@@ -97,14 +97,11 @@ void ZernikeDescriptor<T, TIn>::ComputeMoments ()
 {
     gm_.SetBasicMomentsXYZ(zeroMoment_, x1Moment_, y1Moment_, z1Moment_);
     gm_.Init (voxels_, dim_, dim_, dim_, xCOG_, yCOG_, zCOG_, scale_, order_, true);
-    //gm_.SetTransform (xCOG_, yCOG_, zCOG_, scale_);
-    //gm_.Compute ();
 
     // Zernike moments
     zm_.Init (order_, gm_);
     zm_.Compute ();
 
-//    std::cout << "scale: " << scale_ << std::endl;
 }
 
 /**
@@ -164,15 +161,11 @@ void ZernikeDescriptor<T, TIn>::ComputeNormalization ()
     y1Moment_ = gm.GetMoment (0, 1, 0);
     z1Moment_ = gm.GetMoment (0, 0, 1);
 
-//    std::cout << "basic moments: " << zeroMoment_ << "," << x1Moment_ << "," << y1Moment_ << "," << z1Moment_ << std::endl;
-
     xCOG_ = gm.GetMoment (1, 0, 0) / zeroMoment_;
     yCOG_ = gm.GetMoment (0, 1, 0) / zeroMoment_;
     zCOG_ = gm.GetMoment (0, 0, 1) / zeroMoment_;
 
     // scaling, so that the function gets mapped into the unit sphere
-    
-    //T recScale = ComputeScale_BoundingSphere (voxels_, dim_, xCOG_, yCOG_, zCOG_);
     T recScale = 2.0 * ComputeScale_RadiusVar (voxels_, dim_, xCOG_, yCOG_, zCOG_);
     if (recScale == 0.0)
     {
@@ -224,8 +217,6 @@ T* ZernikeDescriptor<T, TIn>::ReadGrid (const char* _fname, int& _dim_)
         std::cerr << "Cannot open " << _fname << " for reading.\n";
         exit (-1);
     }
-
-//    return result;
 }
 
 template<class T, class TIn>
@@ -340,9 +331,6 @@ void ZernikeDescriptor<T,TIn>::ComputeInvariants ()
             }
 
             invariants_.push_back (sqrt (sum));
-
-            std::cout << "invariants[" << n << "] = " << sum << std::endl;
-            //invariants_[n][li] = std::sqrt (sum);
         }
     }
 }
@@ -354,20 +342,6 @@ void ZernikeDescriptor<T,TIn>::SaveInvariants (const char* _fName)
     std::ofstream outfile (_fName, std::ios_base::binary | std::ios_base::out);
 
     float temp;
-
-    //assert (invariants_.size () == (order_ + 1));
-
-    // write the invariants
-    //for (int n=0; n<order_+1; ++n)
-    //{
-    //    int l0 = n % 2, li = 0;
-    //    for (int l=l0; l<=n; l+=2, ++li)
-    //    {
-    //        temp = (float)invariants_[n][li];
-    //        outfile.write ((char*)(&temp), sizeof(float));
-    //    }
-    //}
-
     int dim = invariants_.size ();
     outfile.write ((char*)(&dim), sizeof(int));
     

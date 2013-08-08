@@ -2,6 +2,7 @@
 #define SFLSRobustStatSegmentor3DLabelMap_single_txx_
 
 #include "SFLSRobustStatSegmentor3DLabelMap_single.h"
+#include "../Prior/LAZMPrior.h"
 
 #include <algorithm>
 #include <ctime>
@@ -37,6 +38,9 @@ CSFLSRobustStatSegmentor3DLabelMap<TPixel>
 
   m_numIterRSS = 1;
   m_fnInter = "";
+
+  LoadZMReference();
+  LoadRadVolPrior();
 
   return;
 }
@@ -143,8 +147,8 @@ CSFLSRobustStatSegmentor3DLabelMap<TPixel>
           kappaMax = kappaMax>fabs(kappaOnZeroLS[i])?kappaMax:fabs(kappaOnZeroLS[i]);
         }
 
-        double ZMNorm, KappaNorm;
-        ZMNorm = 0.0; KappaNorm = 0.0;
+        double ZMNorm;
+        ZMNorm = 0.0;
         for(long i = 0; i < n; i++) {
             ZMNorm += zmForce[i]*zmForce[i];
         }
@@ -282,8 +286,8 @@ CSFLSRobustStatSegmentor3DLabelMap<TPixel>
           kappaMax = kappaMax>fabs(kappaOnZeroLS[i])?kappaMax:fabs(kappaOnZeroLS[i]);
         }
 
-        double ZMNorm, KappaNorm;
-        ZMNorm = 0.0; KappaNorm = 0.0;
+        double ZMNorm;
+        ZMNorm = 0.0;
         for(long i = 0; i < n; i++) {
             ZMNorm += zmForce[i]*zmForce[i];
         }
@@ -596,10 +600,10 @@ CSFLSRobustStatSegmentor3DLabelMap<TPixel>
   // #ifndef NDEBUG
   //   std::ofstream dbgf("/tmp/dbgo.txt", std::ios_base::app);
   // #endif
-    const double STOPSCALE = 1.1; // default 1.1
+    const double STOPSCALE = 1.1;
     std::list<double> eValList;
     const unsigned int eWinSize = 10;
-    double eVal, eValMed, eValNxt, eValFirst, eVal0, eValMax = 0.0;
+    double eVal, eValMed, eValNxt, eValFirst, eVal0 = 0.0, eValMax = 0.0;
 
     if(m_numIterRSS > 0) {
       this->m_maxVolume = std::max((m_LAVolMean + m_RSSZMShiftFactor*m_LAVolSTD)*1000, 6000.0);
@@ -749,47 +753,15 @@ void
 CSFLSRobustStatSegmentor3DLabelMap< TPixel >
 ::LoadZMReference() {
 
-    if(m_fnZMRef != "") {
+    m_ZMOrder = ZMOrder;
+    const long ZMSIZE = sizeof(ZMs)/sizeof(*ZMs);
 
-        std::ifstream infile(m_fnZMRef.c_str());
-        if (infile.good()) {
-
-            m_ZMRef.clear();
-
-            std::stringstream ss;
-            std::string line;
-            float real, imag;
-            std::getline(infile, line);
-
-            ss.str(line);
-            ss >> m_ZMOrder;
-
-            while(std::getline(infile, line))  {
-                if(!line.empty()) {
-                    ss.clear();
-                    ss.str(line);
-                    ss >> real >> imag;
-                    ComplexT ZM(real, imag);
-                    m_ZMRef.push_back(ZM);
-                }
-                else break;
-              }
-
-            m_ZM.SetZMReference(m_ZMRef);
-          }
-        else
-          {
-            std::cerr<<"Error: can not open file:"<<m_fnZMRef<<std::endl;
-            raise(SIGABRT);
-          }
-
-        infile.close();
-
+    m_ZMRef.clear();
+    for(long i = 0; i < ZMSIZE; i+= 2) {
+        ComplexT ZM(ZMs[i], ZMs[i + 1]);
+        m_ZMRef.push_back(ZM);
     }
-    else {
-
-        std::cout << "the reference ZM file doesn't exist:" << m_fnZMRef << std::endl;
-    }
+    m_ZM.SetZMReference(m_ZMRef);
 }
 
 /* ============================================================ */
@@ -804,35 +776,6 @@ CSFLSRobustStatSegmentor3DLabelMap< TPixel >
     m_LARSTD =  3.13;
     m_RSSZMFactor = 0.03;
     m_RSSZMShiftFactor =  -1.0;
-
-//    std::cout << "prior loaded: " << m_fnRadVolPrior << std::endl;
-//    if(m_fnRadVolPrior != "") {
-//        std::string strID;
-
-//        std::ifstream configFile(m_fnRadVolPrior.c_str());
-//        if(configFile.is_open()) {
-//           configFile >> strID >> m_LAVolMean;
-//           configFile >> strID >> m_LAVolSTD;
-//           configFile >> strID >> m_LARMean;
-//           configFile >> strID >> m_LARSTD;
-//           configFile >> strID >> m_RSSZMFactor;
-//           configFile >> strID >> m_RSSZMShiftFactor;
-
-//           std::cout << m_LAVolMean << "," << m_LAVolSTD << std::endl;
-
-//           configFile.close();
-
-//       }
-//        else {
-//            std::cout << "can not open " << m_fnRadVolPrior << std::endl;
-//            return;
-//        }
-
-//    }
-//    else {
-
-//        std::cout << "the RadVolPrior file doesn't exist:" << m_fnRadVolPrior << std::endl;
-//    }
 }
 
 
@@ -1306,31 +1249,6 @@ CSFLSRobustStatSegmentor3DLabelMap<TPixel>
   return;
 }
 
-/* ============================================================  */
-template< typename TPixel >
-void
-CSFLSRobustStatSegmentor3DLabelMap< TPixel >
-::SetZMReference(const char* fnZMRef){
-
-  m_fnZMRef = fnZMRef;
-
-  LoadZMReference();
-
-  return;
-}
-
-/* ============================================================  */
-template< typename TPixel >
-void
-CSFLSRobustStatSegmentor3DLabelMap< TPixel >
-::SetRadVolPrior(const char* fn){
-
-  m_fnRadVolPrior = fn;
-
-  LoadRadVolPrior();
-
-  return;
-}
 
 
 /* ============================================================  */

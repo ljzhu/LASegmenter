@@ -145,6 +145,10 @@ private:
     void Compute ();   
     void ComputeSamples (double _xCOG, double _yCOG, double _zCOG, double _scale);
     void ComputeDiffFunction (T1DIter _iter, T1DIter _diffIter, int _dim);
+
+    /**
+      Added function to copute the derivatives w.r.t geometrical moments
+    */
     void ComputeNormalizedMomentsDerivative(double _scale);
     
     T Multiply (T1DIter _diffIter, T1DIter _sampleIter, int _dim);

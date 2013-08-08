@@ -317,10 +317,6 @@ void ZernikeMoments<VoxelT,MomentT>::Compute ()
                 for (int i=0; i<nCoeffs; ++i)
                 {
                     ComplexCoeffT cc = gCoeffs_[n][li][m][i];
-                    //T scale = gm_.GetScale ();
-                    //T fact = std::pow (scale, cc.p_+cc.q_+cc.r_+3);
-
-                    //zm +=  std::conj (cc.value_) * gm_.GetMoment(cc.p_, cc.q_, cc.r_) * fact;
                     zm +=  std::conj (cc.value_) * gm_.GetMoment(cc.p_, cc.q_, cc.r_);
                 }
 
@@ -330,10 +326,8 @@ void ZernikeMoments<VoxelT,MomentT>::Compute ()
                     nullMoment = zm.real ();
                 }
                 zernikeMoments_[n][li][m] = zm;
-
-//                std::cout << "zernike moment[" << n << "," << li << "," << m << "]" << zernikeMoments_[n][li][m] << std::endl;
-//                std::cout << "zernike moment[nlm]: " << n << "\t" << l << "\t" << m << "\t" << zernikeMoments_[n][li][m] << "\n";
             }
+
         }
     }
 }
@@ -343,10 +337,6 @@ void ZernikeMoments<VoxelT,MomentT>::SetZMRef(std::vector<ComplexT> zmRef) {
 
     m_ZMRef.clear();
     m_ZMRef.insert(m_ZMRef.begin(), zmRef.begin(), zmRef.end());
-
-//    for(int i = 0; i < m_ZMRef.size(); i++) {
-//        std::cout << "ZM" << i << ": " << m_ZMRef[i] << std::endl;
-//    }
 }
 
 template<class VoxelT, class MomentT>
@@ -381,7 +371,6 @@ MomentT ZernikeMoments<VoxelT,MomentT>::GetMomentVariation(double x, double y, d
                 if(m > 0) { zPower *= dsz;zp++;}
                 else {zPower = 1.0;zp = 0;}
                 xyzPower[n][l][m] = xPower*yPower*zPower;
-//                std::cout << "nlm: " << n << "," << l << "," << m << "; pqr: " << xp << "," << yp << "," << zp << std::endl;
             }
         }
     }
@@ -410,19 +399,12 @@ MomentT ZernikeMoments<VoxelT,MomentT>::GetMomentVariation(double x, double y, d
 
                     gm_.GetMomentDerivative(cc.p_, cc.q_, cc.r_, dMoment);
                     dGM = dMoment[0] + dMoment[1]*x + dMoment[2]*y + dMoment[3]*z + xyzPower[cc.p_][cc.q_][cc.r_];
-
-//                    dGM += std::pow(dsx, cc.p_)*std::pow(dsy, cc.q_)*std::pow(dsz, cc.r_);
-//                    dGM = std::pow((x-xCOG)*scale, cc.p_)*std::pow((y - yCOG)*scale, cc.q_)*std::pow((z - zCOG)*scale, cc.r_);
-
-//                    std::cout << "coef: " << cc.value_ << std::endl;
                     sumIn +=  std::conj (cc.value_) * dGM;
                 }
 
                 dZM = zernikeMoments_[n][li][m] - m_ZMRef[zz++];
                 sumOut += 2*std::real(dZM)*std::real(sumIn) \
                         + 2*std::imag(dZM)*std::imag(sumIn);
-
-                //std::cout << "zernike moment[nlm]: " << n << "\t" << l << "\t" << m << "\t" << zernikeMoments_[n][li][m] << "\n";
             }
         }
     }
@@ -436,7 +418,7 @@ MomentT ZernikeMoments<VoxelT,MomentT>::GetZernikeDistance() {
     MomentT sumOut;
     ComplexT dZM;
     int zz;
-//    std::cout << "************** DZM *****************\n";
+
     sumOut = 0;
     zz = 0;
     for (int n=0; n <= order_; ++n)  {
@@ -444,20 +426,12 @@ MomentT ZernikeMoments<VoxelT,MomentT>::GetZernikeDistance() {
         int l0 = n % 2, li = 0;
         for (int l = l0; l<=n; ++li, l+=2) {
             for (int m=0; m<=l; ++m) {
-                // Zernike moment of according indices [nlm]
 
                 dZM = zernikeMoments_[n][li][m] - m_ZMRef[zz++];
-//                std::cout << "zm " << zernikeMoments_[n][li][m] << std::endl;
-//                std::cout << "zmRef " << m_ZMRef[zz-1] << std::endl;
                 sumOut += std::real(dZM)*std::real(dZM) + std::imag(dZM)*std::imag(dZM);
-//                sumOut += std::conj(dZM)*dZM;
-
             }
         }
     }
-
-    //    std::cout << "zm distance = " << sumOut << std::endl;
-
     return sumOut;
 
 }
@@ -473,8 +447,6 @@ void ZernikeMoments<VoxelT,MomentT>::Reconstruct (ComplexT3D& _grid, T _xCOG, T 
     int dimX = _grid.size ();
     int dimY = _grid[0].size ();
     int dimZ = _grid[0][0].size ();
-
-//    std::cout << "grid size: " << dimX << "," << dimY << "," << dimZ << std::endl;
 
     //scaling
     T scale = _scale;
@@ -568,8 +540,6 @@ void ZernikeMoments<VoxelT,MomentT>::Reconstruct (ComplexT3D& _grid, T _xCOG, T 
             }
         }
     }
-
-    //NormalizeGridValues (_grid);
 }
 
 
@@ -594,8 +564,6 @@ void ZernikeMoments<VoxelT,MomentT>::NormalizeGridValues (ComplexT3D& _grid)
             }
         }
     }
-
-//    std::cout << "\nMaximal value in grid: " << max << "\n";
 
     T invMax = (T)1 / max;
 
@@ -685,9 +653,6 @@ void ZernikeMoments<VoxelT,MomentT>::CheckOrthonormality (int _n1, int _l1, int 
         }
     }
    
-    std::cout << "\nInner product of [" << _n1 << "," << _l1 << "," << _m1 << "]";
-    std::cout << " and [" << _n2 << "," << _l2 << "," << _m2 << "]: ";
-    std::cout << sum << "\n\n";
 }
 
 

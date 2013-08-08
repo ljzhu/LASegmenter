@@ -55,10 +55,10 @@ configure_file(
   @ONLY
   )
 
-configure_file(
-  "${PROJECT_SOURCE_DIR}/CLILASegmenter/cmakeConfig.h.in"
-  "${PROJECT_BINARY_DIR}/cmakeConfig.h"
-  )
+#configure_file(
+ # "${PROJECT_SOURCE_DIR}/CLILASegmenter/cmakeConfig.h.in"
+  #"${PROJECT_BINARY_DIR}/cmakeConfig.h"
+  #)
 # add the binary tree to the search path for include files
 # so that we will find config file
 include_directories("${PROJECT_BINARY_DIR}")
@@ -92,7 +92,8 @@ include_directories(${headerAndLibDir})
 
 add_subdirectory(ShapeMoments)
 
-SET(laLibs  ${ITK_LIBRARIES} ${VTK_LIBRARIES} ShapeMoments)
+#SET(laLibs  ${ITK_LIBRARIES} ${VTK_LIBRARIES} ShapeMoments)
+SET(laLibs  ${ITK_LIBRARIES} ShapeMoments)
 SEMMacroBuildCLI(
   NAME ${EXTENSION_NAME}
   #LOGO_HEADER ${Slicer_SOURCE_DIR}/Resources/NAMICLogo.h
