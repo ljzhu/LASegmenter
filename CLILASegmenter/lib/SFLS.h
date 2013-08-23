@@ -1,44 +1,42 @@
 #ifndef SFLS_h_
 #define SFLS_h_
 
+// std
+#include <list>
 
+// itk
+#include "vnl/vnl_vector_fixed.h"
 
-
-//douher
-#include "SFLSLayer.h"
-
-
-namespace douher
+class CSFLS
 {
-  class CSFLS
+public:
+  typedef CSFLS Self;
+
+  typedef vnl_vector_fixed<int, 3> NodeType;
+  typedef std::list<NodeType>      CSFLSLayer;
+
+  // typedef boost::shared_ptr< Self > Pointer;
+
+  // ctor
+  CSFLS()
   {
-  public:
-    typedef CSFLS Self;
-    typedef boost::shared_ptr< Self > Pointer;
+    //       m_lz.reset(new CSFLSLayer);
+    //       m_ln1.reset(new CSFLSLayer);
+    //       m_ln2.reset(new CSFLSLayer);
+    //       m_lp1.reset(new CSFLSLayer);
+    //       m_lp2.reset(new CSFLSLayer);
+  }
 
-    // ctor
-    CSFLS()
-    {
-      m_lz.reset(new CSFLSLayer);
-      m_ln1.reset(new CSFLSLayer);
-      m_ln2.reset(new CSFLSLayer);
-      m_lp1.reset(new CSFLSLayer);
-      m_lp2.reset(new CSFLSLayer);
-    }
-  
-    //   static PointerType New() 
-    //   {
-    //     return PointerType(new CSFLS);
-    //   }
+  //   static Pointer New()
+  //   {
+  //     return Pointer(new CSFLS);
+  //   }
 
-    CSFLSLayer::Pointer m_lz;
-    CSFLSLayer::Pointer m_ln1;
-    CSFLSLayer::Pointer m_ln2;
-    CSFLSLayer::Pointer m_lp1;
-    CSFLSLayer::Pointer m_lp2;
-  };
-}
-
-//#include "SFLS.hpp"
+  CSFLSLayer m_lz;
+  CSFLSLayer m_ln1;
+  CSFLSLayer m_ln2;
+  CSFLSLayer m_lp1;
+  CSFLSLayer m_lp2;
+};
 
 #endif

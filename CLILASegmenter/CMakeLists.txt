@@ -36,14 +36,6 @@ if(NOT Slicer_SOURCE_DIR)
   #include(SlicerEnableExtensionTesting)
 endif()
 
-# boost
-find_path(BOOST_PATH /boost/shared_ptr.hpp)
-if(NOT BOOST_PATH)
-   message(FATAL_ERROR "Please enter the path of boost")
-endif(NOT BOOST_PATH)
-
-include_directories(${BOOST_PATH})
-
 # add the binary tree to the search path for include files
 # so that we will find TutorialConfig.h
 include_directories(${PROJECT_BINARY_DIR})
@@ -61,7 +53,7 @@ configure_file(
   #)
 # add the binary tree to the search path for include files
 # so that we will find config file
-include_directories("${PROJECT_BINARY_DIR}")
+#include_directories("${PROJECT_BINARY_DIR}")
 
 # Add module sub libraries
 set(cli_module_export_directive "Q_SLICER_QTMODULES_LOADABLEEXTENSIONTEMPLATE_EXPORT")
@@ -84,7 +76,7 @@ set(headerAndLibDir
     ${PROJECT_SOURCE_DIR}/CLILASegmenter/
     ${PROJECT_SOURCE_DIR}/CLILASegmenter/ShapeMoments
     ${PROJECT_SOURCE_DIR}/CLILASegmenter/lib
-    ${PROJECT_SOURCE_DIR}/CLILASegmenter/rss
+    ${PROJECT_SOURCE_DIR}/CLILASegmenter/RSSZM
     ${PROJECT_SOURCE_DIR}/CLILASegmenter/SegSrc)
 
 

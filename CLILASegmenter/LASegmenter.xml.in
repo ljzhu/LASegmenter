@@ -27,7 +27,7 @@
           <name>intensityHomogeneity</name>
           <longflag>intensityHomogeneity</longflag>
           <description>What is the homogeneity of intensity within the object? Given constant intensity at 1.0 score and extreme fluctuating intensity at 0.</description>
-          <label>Intensity Homogeneity[0, 1.0]</label>
+          <label>Intensity Homogeneity [0, 1.0]</label>
           <default>0.1</default>
           <constraints>
             <minimum>0.0</minimum>
@@ -40,7 +40,7 @@
           <longflag>curvatureWeight</longflag>
           <flag>c</flag>
           <description><![CDATA[Given sphere 1.0 score and extreme rough bounday/surface 0 score, what is the expected smoothness of the object?]]></description>
-          <label>Boundary Smoothness[0,1.0]</label>
+          <label>Boundary Smoothness [0, 1.0]</label>
           <default>0.4</default>
           <constraints>
             <minimum>0.0</minimum>

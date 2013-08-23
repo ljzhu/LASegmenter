@@ -6,8 +6,8 @@
 #include "itkOrImageFilter.h"
 
 // local
-#include "./rss/labelMapPreprocessor.h"
-#include "./rss/SFLSRobustStatSegmentor3DLabelMap_single.h"
+#include "./RSSZM/labelMapPreprocessor.h"
+#include "./RSSZM/SFLSRobustStatSegmentor3DLabelMap_single.h"
 
 namespace LASeg {
 
