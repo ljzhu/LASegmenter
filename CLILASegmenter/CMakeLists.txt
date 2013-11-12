@@ -47,14 +47,6 @@ configure_file(
   @ONLY
   )
 
-#configure_file(
- # "${PROJECT_SOURCE_DIR}/CLILASegmenter/cmakeConfig.h.in"
-  #"${PROJECT_BINARY_DIR}/cmakeConfig.h"
-  #)
-# add the binary tree to the search path for include files
-# so that we will find config file
-#include_directories("${PROJECT_BINARY_DIR}")
-
 # Add module sub libraries
 set(cli_module_export_directive "Q_SLICER_QTMODULES_LOADABLEEXTENSIONTEMPLATE_EXPORT")
 
@@ -82,9 +74,7 @@ set(headerAndLibDir
 
 include_directories(${headerAndLibDir})
 
-add_subdirectory(ShapeMoments)
-
-SET(laLibs  ${ITK_LIBRARIES} ShapeMoments)
+SET(laLibs  ${ITK_LIBRARIES})
 SEMMacroBuildCLI(
   NAME ${EXTENSION_NAME}
   TARGET_LIBRARIES ${cli_module_target_libraries} ${laLibs}
