@@ -9,8 +9,8 @@
 #include <algorithm>
 
 // gnu
-#include <dirent.h>
-#include <sys/types.h>
+//#include <dirent.h>
+//#include <sys/types.h>
 
 // itk
 #include "itkImage.h"
