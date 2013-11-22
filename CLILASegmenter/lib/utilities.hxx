@@ -375,7 +375,7 @@ float* ExtractCubicNonZeroRegion(typename ImSrcType::Pointer im, int& dim) {
       outSpacing = sampleSpacing;
 
       for(unsigned int i = 0; i < 3; i++) {
-          outSize[i] = std::floor(inSpacing[i]*inSize[i]/outSpacing[i]+0.5s);
+          outSize[i] = std::floor(inSpacing[i]*inSize[i]/outSpacing[i]+0.5);
       }
 
       if(imTypeFlag) {
