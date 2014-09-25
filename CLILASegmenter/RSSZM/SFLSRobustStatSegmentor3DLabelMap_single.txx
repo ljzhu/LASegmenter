@@ -826,7 +826,12 @@ void CSFLSRobustStatSegmentor3DLabelMap< TPixel >
     m_ZMOrigin[1] = bound[2];
     m_ZMOrigin[2] = bound[4];
 
-    TSize size = {{bound[1] - bound[0] + 1, bound[3] - bound[2] + 1, bound[5] - bound[4]+ 1}};
+    TSize size =
+      {
+      static_cast<itk::SizeValueType>(bound[1] - bound[0] + 1),
+      static_cast<itk::SizeValueType>(bound[3] - bound[2] + 1),
+      static_cast<itk::SizeValueType>(bound[5] - bound[4]+ 1)
+      };
 
     long dim = std::max(std::max(size[0], size[1]), size[2]);
     long total;//, widLine, areaPlane;
