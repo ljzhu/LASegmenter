@@ -40,7 +40,9 @@ for more information, see the paper:
 #ifndef ZERNIKEMOMENTS_H
 #define ZERNIKEMOMENTS_H
 
+#if defined(_MSC_VER)
 #pragma warning (disable : 4267)
+#endif
 
 // ----- local program includes -----
 #include "Factorial.h"
