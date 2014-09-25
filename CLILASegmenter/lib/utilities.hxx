@@ -17,7 +17,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImportImageFilter.h"
-#include "itkAnalyzeImageIO.h"
 #include "itkOrientImageFilter.h"
 #include "itkIdentityTransform.h"
 #include "itkResampleImageFilter.h"
@@ -82,9 +81,7 @@ namespace LASeg
       typedef itk::ImageFileReader< itkImage_t > ImageReaderType;
       typename itkImage_t::Pointer rval;
 
-       itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
        typename ImageReaderType::Pointer fileReader = ImageReaderType::New();
-//       fileReader->SetImageIO(io);
        fileReader->SetFileName(fileName);
 
        try {
