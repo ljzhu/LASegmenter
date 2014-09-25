@@ -838,7 +838,6 @@ void CSFLSRobustStatSegmentor3DLabelMap< TPixel >
     typename ImMaskType::Pointer imLab = ImMaskType::New();
 
     if(m_fnInter != "") {
-        typedef ImMaskType::IndexType TIndex;
         typename ImMaskType::IndexType start;
         typename ImMaskType::RegionType region;
          start[0] = 0;
