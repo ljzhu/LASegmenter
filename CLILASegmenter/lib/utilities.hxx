@@ -17,7 +17,6 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkImportImageFilter.h"
-#include "itkAnalyzeImageIO.h"
 #include "itkOrientImageFilter.h"
 #include "itkIdentityTransform.h"
 #include "itkResampleImageFilter.h"
@@ -28,7 +27,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkBinaryThresholdImageFilter.h"
-#include "itkMultiplyByConstantImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 #include  "itkXorImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -82,7 +81,7 @@ namespace LASeg
       typedef itk::ImageFileReader< itkImage_t > ImageReaderType;
       typename itkImage_t::Pointer rval;
 
-       itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
+       itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
        typename ImageReaderType::Pointer fileReader = ImageReaderType::New();
 //       fileReader->SetImageIO(io);
        fileReader->SetFileName(fileName);
@@ -350,10 +349,10 @@ float* ExtractCubicNonZeroRegion(typename ImSrcType::Pointer im, int& dim) {
   typename itk::Image<unsigned char, 3>::Pointer
   postProcessProbabilityMap(typename image_t::Pointer probMap, typename image_t::PixelType c)
   {
-    typedef itk::MultiplyByConstantImageFilter< image_t, typename image_t::PixelType, itk::Image<unsigned char, 3> > \
-      itkMultiplyByConstantImageFilter_t;
+    typedef itk::MultiplyImageFilter< image_t, typename image_t::PixelType, itk::Image<unsigned char, 3> > \
+      itkMultiplyImageFilter_t;
 
-    typename itkMultiplyByConstantImageFilter_t::Pointer mul = itkMultiplyByConstantImageFilter_t::New();
+    typename itkMultiplyImageFilter_t::Pointer mul = itkMultiplyImageFilter_t::New();
     mul->SetInput(probMap);
     mul->SetConstant(c);
     mul->Update();
