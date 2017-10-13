@@ -27,7 +27,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkBinaryThresholdImageFilter.h"
-#include "itkMultiplyByConstantImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 #include  "itkXorImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -347,10 +347,10 @@ float* ExtractCubicNonZeroRegion(typename ImSrcType::Pointer im, int& dim) {
   typename itk::Image<unsigned char, 3>::Pointer
   postProcessProbabilityMap(typename image_t::Pointer probMap, typename image_t::PixelType c)
   {
-    typedef itk::MultiplyByConstantImageFilter< image_t, typename image_t::PixelType, itk::Image<unsigned char, 3> > \
-      itkMultiplyByConstantImageFilter_t;
+    typedef itk::MultiplyImageFilter< image_t, typename image_t::PixelType, itk::Image<unsigned char, 3> > \
+      itkMultiplyImageFilter_t;
 
-    typename itkMultiplyByConstantImageFilter_t::Pointer mul = itkMultiplyByConstantImageFilter_t::New();
+    typename itkMultiplyImageFilter_t::Pointer mul = itkMultiplyImageFilter_t::New();
     mul->SetInput(probMap);
     mul->SetConstant(c);
     mul->Update();
